@@ -33,7 +33,6 @@
         #image {
             width: 300px;
             height: auto;
-            display: none;
         }
     </style>
 </head>
@@ -41,7 +40,7 @@
     <div id="clock"></div>
     <div id="date"></div>
     <div id="message">Loading...</div>
-    <img id="image" src="" alt="Notification Image">
+    <img id="image" src="" alt="Notification Image" style="display: none">
     <script>
         function updateClock() {
             const now = new Date();
