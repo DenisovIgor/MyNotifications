@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notification</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f0f0;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 100vh;
+        }
+        #clock {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+        #date {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+        #message {
+            font-size: 2rem;
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+        #image {
+            width: 300px;
+            height: auto;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="clock"></div>
+    <div id="date"></div>
+    <div id="message">Loading...</div>
+    <img id="image" src="" alt="Notification Image">
+    <script>
+        function updateClock() {
+            const now = new Date();
+            const clockElement = document.getElementById('clock');
+            const dateElement = document.getElementById('date');
+            
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            clockElement.textContent = `${hours}:${minutes}`;
+            
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            dateElement.textContent = now.toLocaleDateString(undefined, options);
+        }
+
+        function getQueryParams() {
+            const params = {};
+            const queryString = window.location.search.substring(1);
+            const pairs = queryString.split('&');
+            pairs.forEach(pair => {
+                const [key, value] = pair.split('=');
+                params[decodeURIComponent(key)] = decodeURIComponent(value || '');
+            });
+            return params;
+        }
+
+        function updateNotification() {
+            const params = getQueryParams();
+            const messageElement = document.getElementById('message');
+            const imageElement = document.getElementById('image');
+
+            const messageText = params.text || "";
+            const type = params.type || "";
+
+            // Common path for images
+            const imageBasePath = "";
+
+            // Map notification types to image filenames
+            const notificationImages = {
+                mail: "mail.webp",
+                washing_machine: "washing_machine.webp",
+                drying_machine: "drying_machine.webp",
+                bath: "bath.webp"
+            };
+
+            // Update message
+            messageElement.textContent = messageText;
+
+            // Set the image source dynamically based on the type
+            if ( type && notificationImages[type] ) {
+              imageElement.src = imageBasePath + notificationImages[type];
+              imageElement.style.display = '';
+            }
+        }
+
+        // Initialize clock and notification
+        updateClock();
+        setInterval(updateClock, 60000);
+        updateNotification();
+    </script>
+</body>
+</html>
