@@ -41,7 +41,6 @@
     <div id="clock"></div>
     <div id="date"></div>
     <div id="message">Loading...</div>
-    <img id="image" src="" alt="Notification Image" style="display: none">
     <script>
         function updateClock() {
             const now = new Date();
@@ -70,7 +69,6 @@
         function updateNotification() {
             const params = getQueryParams();
             const messageElement = document.getElementById('message');
-            const imageElement = document.getElementById('image');
 
             const messageText = params.text || "";
             const type = params.type || "";
